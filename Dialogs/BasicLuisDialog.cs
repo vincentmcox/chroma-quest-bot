@@ -1,5 +1,6 @@
 using System;
 using System.Configuration;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
@@ -32,6 +33,25 @@ namespace RM_ChromaTestBot.Dialogs
             await this.ShowLuisResult(context, result);
         }
 
+
+        [LuisIntent("ChangeColour")]
+        public async Task ChangeColourIntent(IDialogContext context, LuisResult result)
+        {
+            var principalColourEntity = result.Entities.FirstOrDefault();
+
+            if (principalColourEntity == null)
+            {
+                await ShowLuisResult(context, "I'm sorry, I don't know that colour.");
+                return;
+            }
+            // Post to website
+            var userInfo = context.UserData;
+
+            
+
+            await ShowLuisResult(context, $"I'm on it, boss! Changing the backgroud to {principalColourEntity}");
+        }
+
         [LuisIntent("Cancel")]
         public async Task CancelIntent(IDialogContext context, LuisResult result)
         {
@@ -49,5 +69,12 @@ namespace RM_ChromaTestBot.Dialogs
             await context.PostAsync($"You have reached {result.Intents[0].Intent}. You said: {result.Query}");
             context.Wait(MessageReceived);
         }
+
+        private async Task ShowLuisResult(IDialogContext context, string message)
+        {
+            await context.PostAsync(message);
+            context.Wait(MessageReceived);
+        }
+
     }
 }
