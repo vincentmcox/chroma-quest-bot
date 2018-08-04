@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Autofac;
 using System.Web.Http;
 using System.Configuration;
@@ -6,6 +8,7 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
+using RM_ChromaTestBot;
 
 namespace SimpleEchoBot
 {
